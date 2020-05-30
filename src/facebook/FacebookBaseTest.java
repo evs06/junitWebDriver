@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class FacebookBaseTest {
 	
@@ -12,7 +13,13 @@ public class FacebookBaseTest {
 	
 	public void setUp(String browser, String url) {
 		System.out.println("Arranca el browser porfa y navega a la pagina.");
-		driver = new ChromeDriver();
+		if(browser.equals("chrome")){
+			driver = new ChromeDriver();
+		}
+		if(browser.equals("firefox")){
+			driver = new FirefoxDriver();
+		}
+
 		driver.get(url);
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 	}

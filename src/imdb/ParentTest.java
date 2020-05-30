@@ -22,8 +22,8 @@ public class ParentTest {
 	public void setUp() {
 		
 		driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-		wait = new WebDriverWait(driver, 5);		
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		wait = new WebDriverWait(driver, 15);
 	}
 	
 	@After
