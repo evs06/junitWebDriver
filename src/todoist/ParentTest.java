@@ -1,12 +1,17 @@
 package todoist;
 
+import com.sun.javafx.geom.Edge;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -18,12 +23,25 @@ public class ParentTest {
     protected WebDriver driver;
     protected WebDriverWait wait;
 
-    @Before
-    public void setUp(){
 
-        driver = new ChromeDriver();
+    public void setUp(String browser, String url) {
+
+        //System.setProperty("webdriver.edge.driver","C:/Windows/msedgedriver.exe");
+        //System.setProperty("webdriver.gecko.driver","C:/Windows/geckodriver.exe");
+        if(browser.equals("Chrome")){
+            driver = new ChromeDriver();
+        }
+        if(browser.equals("Opera")){
+            driver = new OperaDriver();
+        }
+        if(browser.equals("Edge")){
+            System.setProperty("webdriver.edge.driver","C:/Windows/msedgedriver.exe");
+            driver = new EdgeDriver();
+        }
+
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, 5);
+        driver.get(url);
         driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
 
     }
@@ -34,10 +52,6 @@ public class ParentTest {
 
     }
 
-    protected void navigateToPage(String url) {
-        // TODO Auto-generated method stub
-        driver.navigate().to(url);
-    }
 
     protected void validarLandingPage() {
 
@@ -77,6 +91,7 @@ public class ParentTest {
 
     protected void crearProyecto(String nombreProyecto, String color) {
 
+        //Solución °1
         Actions action = new Actions(driver);
         WebElement plusSign = driver.findElement(By.cssSelector("[data-track='navigation|projects_quick_add']"));
         action.moveToElement(plusSign).build().perform();
@@ -96,26 +111,38 @@ public class ParentTest {
 
         for(WebElement colors: listColors) {
 
-            //WebElement nomColor = colors.findElement(By.cssSelector(".color_dropdown_select__name"));
             String textColor = colors.getText();
 
             if(textColor.equals(color)){
-
-                WebElement teal = colors.findElement(By.id("dropdown-select-4-option-38"));
-                //String b = a.getText();
-                //WebElement a = driver.findElement(By.cssSelector(".color_dropdown_select__name"));
-                teal.click();
+                colors.click();
                 break;
             }
-            //System.out.println(textColor);
         }
 
-
+        WebElement btnAdd = driver.findElement(By.cssSelector(".reactist_modal_box__actions > button:last-child"));
+        btnAdd.submit();
 
     }
 
-    protected void validarProyecto(String nombreProyecto, String color) {
+    protected void validarProyecto(String nombreProyecto, String rgbColor) {
 
+        String rgb = "color: rgb(21, 143, 173);";
+        rgbColor = rgb;
+
+        List<WebElement> listaProjects = driver.findElements(By.cssSelector(".clickable"));
+
+        for(WebElement projects: listaProjects) {
+
+            String nomProject = projects.getText();
+
+            WebElement listaColores = projects.findElement(By.cssSelector("#projects_list > li > table > tbody > tr > td.td_color > div"));
+            String listaColor = listaColores.getAttribute("Style");
+
+            if(nomProject.equals(nombreProyecto) && listaColor.equals(rgbColor)){
+                System.out.println("¡Proyecto agregado exitosamente!");
+                break;
+            }
+        }
 
     }
 

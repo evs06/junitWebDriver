@@ -9,7 +9,7 @@ public class ImdbTest extends ParentTest{
 		navigateToPage("http://imdb.com");
 		validatePage();
 		searchMovie("The Avengers");
-		validateMovieExists("The Avengers");
+		validateMovieExists("The Avengers: Los Vengadores");
 	}
 	
 	
@@ -18,8 +18,8 @@ public class ImdbTest extends ParentTest{
 		navigateToPage("http://imdb.com");
 		validatePage();
 		searchMovie("The Avengers");
-		validateMovieExists("The Avengers");
-		selectMovie("The Avengers", "2012");
+		validateMovieExists("The Avengers: Los Vengadores");
+		selectMovie("The Avengers: Los Vengadores", "2012");
 		Thread.sleep(5000);
 		validateCorrectMovie();
 		playTrailer();
@@ -30,8 +30,8 @@ public class ImdbTest extends ParentTest{
 		navigateToPage("http://imdb.com");
 		validatePage();
 		searchMovie("The Avengers");
-		validateMovieExists("The Avengers");
-		selectMovie("The Avengers", "2012");
+		validateMovieExists("The Avengers: Los Vengadores");
+		selectMovie("The Avengers: Los Vengadores", "2012");
 		validateCorrectMovie();
 		validateMovieStars();
 	}

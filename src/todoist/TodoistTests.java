@@ -1,19 +1,24 @@
 package todoist;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import junitparams.FileParameters;
+import junitparams.JUnitParamsRunner;
+
+@RunWith(JUnitParamsRunner.class)
 public class TodoistTests extends ParentTest{
 
-
     @Test
-    public void testSearchMovie() {
-        navigateToPage("https://todoist.com/es");
+    @FileParameters("./data/paramsTodoist.csv")
+    public void testSearchMovie(String browser, String url, String user, String password,
+                                String projectName, String color)
+    {
+        setUp(browser, url);
         validarLandingPage();
-        login("jomarnavarro@gmail.com", "Test@1234");
+        login(user, password);
         validarHomePage();
-        crearProyecto("proyectoXXXXL", "Teal");
-        validarProyecto("prouectoXXXXL", "Teal");
+        crearProyecto(projectName, color);
+        validarProyecto(projectName, color);
     }
-
-
 }
